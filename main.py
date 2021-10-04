@@ -52,26 +52,25 @@ def check():
             sales_hourly += 1
             sales_daily += 1
             user, userid, clothing_name, price, saleid, clothingid = line.split(':',6)
-            if int(saleid) > int(comparer):
-                data = {
-                      'embeds':[{
-                          'author': {
-                              'name': f'Asset Sold'
-                              },
-                          'color': int('0099E1',16),
-                          'fields': [
-                              {'name': '\u200b', 'value': f'**User**: {user}\n**UserID**: {userid}\n**Price**: {price}', 'inline':False},
-                              {'name': '\u200b', 'value': f'**Daily Sales**: {sales_daily}\n**Hourly Sales**: {sales_hourly}', 'inline':False},
-                              {'name': '\u200b', 'value': f'**Asset**: {clothing_name}\n**Asset ID**: {clothingid}', 'inline':False},
-                          ],
-                          'thumbnail': {
-                              'url': f'https://www.roblox.com/headshot-thumbnail/image?userId={userid}&width=420&height=420&format=png',
-                              }
-                    }]
-                  }
+            # saleid is compared with comparer in order to make sure that the webhook it sends is not 
+            data = {
+                  'embeds':[{
+                      'author': {
+                          'name': f'Asset Sold'
+                          },
+                      'color': int('0099E1',16),
+                      'fields': [
+                          {'name': '\u200b', 'value': f'**User**: {user}\n**UserID**: {userid}\n**Price**: {price}', 'inline':False},
+                          {'name': '\u200b', 'value': f'**Daily Sales**: {sales_daily}\n**Hourly Sales**: {sales_hourly}', 'inline':False},
+                          {'name': '\u200b', 'value': f'**Asset**: {clothing_name}\n**Asset ID**: {clothingid}', 'inline':False},
+                      ],
+                      'thumbnail': {
+                          'url': f'https://www.roblox.com/headshot-thumbnail/image?userId={userid}&width=420&height=420&format=png',
+                          }
+                }]
+              }
                 r = requests.post(webhook,json=data).text
             else: pass
-            comparer = int(saleid)
 
 sales()
 time.sleep(60)
@@ -82,6 +81,7 @@ while True:
     check()
     print('checked')
     time.sleep(60)
+    
     if daily % 60 == 0:
         daily -= daily
     else: pass
