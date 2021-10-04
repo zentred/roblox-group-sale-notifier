@@ -52,7 +52,6 @@ def check():
             sales_hourly += 1
             sales_daily += 1
             user, userid, clothing_name, price, saleid, clothingid = line.split(':',6)
-            # saleid is compared with comparer in order to make sure that the webhook it sends is not 
             data = {
                   'embeds':[{
                       'author': {
