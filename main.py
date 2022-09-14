@@ -38,23 +38,25 @@ class Group():
                 for sale in response:
                     if sale['id'] not in self.previousSales:
 
-                        data = {
-                            'embeds':[{
-                                'author': {
-                                    'name': f'{sale["details"]["name"]}'
+                        requests.post(
+                            config['webhook'],
+                            json = {
+                                'embeds': [{
+                                    'author': {
+                                        'name': f'{sale["details"]["name"]}'
                                     },
-                                'color': int('0099E1',16),
-                                'fields': [
-                                    {'name': 'Buyer', 'value': f'{sale["agent"]["name"]}', 'inline':True},
-                                    {'name': 'Price', 'value': f'{sale["currency"]["amount"]}', 'inline':True},
-                                    {'name': 'Statistics', 'value': f'Past Hour Sales: {hourlySales}\nPast Hour Gain: R$ {hourlyGain}', 'inline':False},
-                                ],
-                                'thumbnail': {
-                                    'url': f'https://www.roblox.com/headshot-thumbnail/image?userId={sale["agent"]["id"]}&width=420&height=420&format=png',
-                                    }
-                            }]
-                        }
-                        requests.post(config['webhook'], json=data)
+                                    'thumbnail': {
+                                        'url': f'https://www.roblox.com/headshot-thumbnail/image?userId={sale["agent"]["id"]}&width=420&height=420&format=png',
+                                    },
+                                    'fields': [
+                                        {'name': 'Buyer', 'value': f'{sale["agent"]["name"]}', 'inline':True},
+                                        {'name': 'Price', 'value': f'{sale["currency"]["amount"]}', 'inline':True},
+                                        {'name': 'Statistics', 'value': f'Past Hour Sales: {hourlySales}\nPast Hour Gain: R$ {hourlyGain}', 'inline':False},
+                                    ],
+                                    'color': int('0099E1',16)
+                                }
+                            ]}
+                        )
 
                 self.previousSales = [sale['id'] for sale in response]
                 time.sleep(60)
